@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>采鈺科技 VisEra - 晶圓製程交接與批號流轉平台</title>
+  <link rel="stylesheet" href="css/main.css?v=2.0">
+  <link rel="stylesheet" href="css/kanban.css?v=2.0">
+  <link rel="stylesheet" href="css/theme-cleanroom.css?v=2.0">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-logo">
+        <span>VisEra</span>
+        <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary);">采鈺科技 晶圓製程交接平台</span>
+      </div>
+      <span class="brand-tag">Fab Cleanroom v1.0</span>
+    </div>
+
+    <!-- Quick Metrics Ribbon -->
+    <div class="header-metrics">
+      <div class="metric-pill">
+        <span class="label">在線流轉</span>
+        <span class="val" id="metric-active-val">0</span>
+      </div>
+      <div class="metric-pill hot">
+        <span class="label">急件 (HOT)</span>
+        <span class="val" id="metric-hot-val">0</span>
+      </div>
+      <div class="metric-pill hold">
+        <span class="label">卡關 (HOLD)</span>
+        <span class="val" id="metric-hold-val">0</span>
+      </div>
+      <div class="metric-pill">
+        <span class="label">本班完成</span>
+        <span class="val" id="metric-done-val">0</span>
+      </div>
+    </div>
+
+    <!-- Header Quick Actions -->
+    <div class="header-actions">
+      <button type="button" class="btn btn-secondary" id="btn-theme-toggle" title="黃光區波長對比強化">黃光區高對比模式</button>
+      <button type="button" class="btn btn-sync" id="btn-connect-shared" title="讀取廠內網路共用槽資料庫">掛載共享磁碟</button>
+      <button type="button" class="btn btn-success" id="btn-open-handover">班別交接與日報</button>
+    </div>
+  </header>
+
+  <!-- Filter & Controls Toolbar -->
+  <section class="toolbar-section">
+    <div class="view-switchers">
+      <button type="button" class="view-btn active" id="btn-view-kanban">機台看板視圖</button>
+      <button type="button" class="view-btn" id="btn-view-table">數據清單視圖</button>
+    </div>
+
+    <div class="search-filter-box">
+      <input type="text" class="search-input" id="search-input" placeholder="快速搜尋批號 (例: F93868.00)、機台、負責人..." />
+      <select class="filter-select" id="filter-category">
+        <option value="ALL">全部類別</option>
+        <option value="RD_PRODUCT">RD 產品批</option>
+        <option value="MONITOR_WAFER">實驗控片</option>
+      </select>
+      <select class="filter-select" id="filter-priority">
+        <option value="ALL">全部優先級</option>
+        <option value="SUPER_HOT">SUPER HOT</option>
+        <option value="HOT">HOT</option>
+        <option value="NORMAL">NORMAL</option>
+      </select>
+    </div>
+
+    <div style="display: flex; gap: 8px;">
+      <button type="button" class="btn btn-primary" id="btn-open-parser">貼上郵件智慧解析</button>
+      <button type="button" class="btn btn-secondary" id="btn-new-lot">手動新增批號</button>
+    </div>
+  </section>
+
+  <!-- Main View Workspace -->
+  <main class="main-view-container">
+    <div id="kanban-container"></div>
+    <div id="table-container" class="table-view-container"></div>
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Modal 1: Smart Email Parser Modal -->
+  <div class="modal-overlay" id="modal-parser">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>工程師郵件文字智慧解析與批次轉入</h3>
+        <button type="button" class="modal-close" id="btn-close-parser">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">請在此貼上工程師發布之交代郵件內文</label>
+          <textarea class="form-textarea" id="parser-input" style="min-height: 140px;" placeholder="例如：請協助將批號 F93868.00 push 到 GETHA4 蝕刻機台再 push 到 GCOAT01 coat 光阻，另外實驗控片 EMG08827.00 急件需量 CD-SEM (120nm) 與看 Macro 外觀與 OM 顯微..."></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+          <button type="button" class="btn btn-primary" id="btn-exec-parse">執行智慧正則萃取</button>
+        </div>
+        <div id="parser-preview-container"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-parser">取消</button>
+        <button type="button" class="btn btn-success" id="btn-commit-parsed">確認批次建立卡片</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Lot Detail & Full Traceability Modal -->
+  <div class="modal-overlay" id="modal-lot-detail">
+    <div class="modal-container" style="max-width: 820px;">
+      <div class="modal-header">
+        <h3>全狀態生產履歷與工序檢核表</h3>
+        <button type="button" class="modal-close" id="btn-close-lot">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">批號 (Lot ID)</label>
+            <input type="text" class="form-input" id="lot-edit-id" style="font-family: var(--font-mono); font-weight: 700;" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">類別</label>
+            <select class="form-select" id="lot-edit-category">
+              <option value="RD_PRODUCT">RD 研發產品批</option>
+              <option value="MONITOR_WAFER">實驗控片 / 監控片</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">優先等級</label>
+            <select class="form-select" id="lot-edit-priority">
+              <option value="NORMAL">NORMAL</option>
+              <option value="HOT">HOT (急件)</option>
+              <option value="SUPER_HOT">SUPER HOT (特急件)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">當前所在站點／機台</label>
+            <select class="form-select" id="lot-edit-station">
+              <option value="GETHA4">GETHA4 蝕刻機台</option>
+              <option value="GCOAT01">GCOAT01 光阻塗布</option>
+              <option value="CD-SEM">CD-SEM 尺寸量測</option>
+              <option value="MACRO_OM">Macro / OM 顯微檢驗</option>
+              <option value="UNASSIGNED">未分配站點 (待指定)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">工序狀態</label>
+            <select class="form-select" id="lot-edit-status">
+              <option value="IN_PROGRESS">IN_PROGRESS (進行中)</option>
+              <option value="HELD">HELD (異常卡關)</option>
+              <option value="COMPLETED">COMPLETED (已完成)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">負責工程師</label>
+            <input type="text" class="form-input" id="lot-edit-engineer" placeholder="工程師姓名或分機" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">卡關原因 (若狀態為 HOLD 請具體填寫)</label>
+          <input type="text" class="form-input" id="lot-edit-hold-reason" placeholder="例如：等候工程師簽核 Recipe、膜厚規格超標待確認" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">工程師交代事項與原始指示</label>
+          <textarea class="form-textarea" id="lot-edit-instructions" placeholder="輸入工程師囑咐之注意事項"></textarea>
+        </div>
+
+        <!-- Traceability Tasks Checklist -->
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label class="form-label" style="margin-bottom: 0;">工序與檢驗項目檢核清單 (Traceability Tasks)</label>
+            <button type="button" class="btn btn-secondary" id="btn-add-task-item" style="padding: 2px 8px; font-size: 0.75rem;">+ 新增檢驗/站點</button>
+          </div>
+          <div id="lot-task-items-container"></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">當前操作員工號</label>
+            <input type="text" class="form-input" id="lot-edit-operator" placeholder="例如 V10492" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button type="button" class="btn btn-secondary" id="btn-delete-lot" style="color: var(--danger);">刪除此批號</button>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-lot">關閉</button>
+          <button type="button" class="btn btn-primary" id="btn-save-lot">儲存更新</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Shift Handover & Report Generator Modal -->
+  <div class="modal-overlay" id="modal-handover">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>班別交接儀式與日報匯出</h3>
+        <button type="button" class="modal-close" id="btn-close-handover">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="handover-summary-badge" style="background-color: var(--bg-tertiary); padding: 10px 14px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 600; color: var(--accent-cyan); margin-bottom: 16px;"></div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">交接型態</label>
+            <select class="form-select" id="handover-shift-type">
+              <option value="DAY_TO_NIGHT">早班 (Day) 轉 大夜班 (Night)</option>
+              <option value="NIGHT_TO_DAY">大夜班 (Night) 轉 早班 (Day)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">交班人員工號 (Outgoing)</label>
+            <input type="text" class="form-input" id="handover-outgoing-op" placeholder="例: V10492" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">接班人員工號 (Incoming)</label>
+            <input type="text" class="form-input" id="handover-incoming-op" placeholder="例: V67890" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">特別交代事項備註 (Handover Notes)</label>
+          <textarea class="form-textarea" id="handover-notes" placeholder="輸入機台維護狀態、預防保養（PM）排程或特急批號提醒..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button type="button" class="btn btn-secondary" id="btn-copy-report">一鍵複製 Email 交接日報</button>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-handover">取消</button>
+          <button type="button" class="btn btn-success" id="btn-submit-signoff">確認雙簽並存檔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js?v=2.0"></script>
+</body>
+</html>

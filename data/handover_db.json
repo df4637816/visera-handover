@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "last_updated_at": "2026-10-24T17:15:00+08:00",
+  "stations": [
+    { "id": "GETHA4", "name": "GETHA4 蝕刻機台", "area": "Etch", "order": 1 },
+    { "id": "GCOAT01", "name": "GCOAT01 光阻塗布", "area": "Photo", "order": 2 },
+    { "id": "CD-SEM", "name": "CD-SEM 尺寸量測", "area": "Metrology", "order": 3 },
+    { "id": "MACRO_OM", "name": "Macro / OM 顯微檢驗", "area": "Inspection", "order": 4 },
+    { "id": "HOLD", "name": "Hold / 卡關待確認", "area": "Exception", "order": 5 },
+    { "id": "COMPLETED", "name": "本班已完成", "area": "Finished", "order": 6 }
+  ],
+  "lots": [
+    {
+      "id": "lot-uuid-001",
+      "lot_id": "F93868.00",
+      "category": "RD_PRODUCT",
+      "priority": "HOT",
+      "current_station": "GETHA4",
+      "target_route": ["GETHA4", "GCOAT01", "CD-SEM"],
+      "status": "IN_PROGRESS",
+      "hold_reason": "",
+      "engineer": "張資深工程師",
+      "engineer_instructions": "完成 GETHA4 蝕刻後需於 2 小時內 push 至 GCOAT01 上光阻",
+      "tasks": [
+        { "name": "Push GETHA4", "required": true, "completed": true, "result_value": "Recipe E-204 Done", "file_path": "" },
+        { "name": "Push GCOAT01", "required": true, "completed": false, "result_value": "", "file_path": "" },
+        { "name": "CD-SEM", "required": true, "completed": false, "result_value": "", "file_path": "" }
+      ],
+      "operator_id": "V10492",
+      "track_in_time": "2026-10-24T14:10:00+08:00",
+      "track_out_time": null,
+      "shift": "DAY",
+      "created_at": "2026-10-24T14:00:00+08:00",
+      "updated_at": "2026-10-24T16:20:00+08:00"
+    },
+    {
+      "id": "lot-uuid-002",
+      "lot_id": "EMG08827.00",
+      "category": "MONITOR_WAFER",
+      "priority": "SUPER_HOT",
+      "current_station": "CD-SEM",
+      "target_route": ["CD-SEM", "MACRO_OM"],
+      "status": "IN_PROGRESS",
+      "hold_reason": "",
+      "engineer": "李整合工程師",
+      "engineer_instructions": "控片急件，需量測微結構 CD-SEM (目標 120nm)，並檢查 Macro 外觀刮痕與 OM 圖樣",
+      "tasks": [
+        { "name": "CD-SEM", "required": true, "completed": false, "result_value": "", "file_path": "\\\\visera\\share\\sem\\EMG08827_raw.csv" },
+        { "name": "Macro", "required": true, "completed": true, "result_value": "無刮痕，邊緣正常", "file_path": "" },
+        { "name": "OM", "required": true, "completed": false, "result_value": "", "file_path": "" }
+      ],
+      "operator_id": "V10492",
+      "track_in_time": "2026-10-24T15:30:00+08:00",
+      "track_out_time": null,
+      "shift": "DAY",
+      "created_at": "2026-10-24T15:20:00+08:00",
+      "updated_at": "2026-10-24T16:30:00+08:00"
+    },
+    {
+      "id": "lot-uuid-003",
+      "lot_id": "F94102.00",
+      "category": "RD_PRODUCT",
+      "priority": "NORMAL",
+      "current_station": "HOLD",
+      "target_route": ["GETHA4", "HOLD"],
+      "status": "HELD",
+      "hold_reason": "等候 PIE 判定蝕刻深寬比是否達標，機台暫停進貨",
+      "engineer": "陳研發工程師",
+      "engineer_instructions": "蝕刻第一片測片後先 Hold，等回報 SEM 截面圖再放行",
+      "tasks": [
+        { "name": "First Wafer Etch", "required": true, "completed": true, "result_value": "Slot 01 Etched", "file_path": "" },
+        { "name": "PIE Confirmation", "required": true, "completed": false, "result_value": "Pending email response", "file_path": "" }
+      ],
+      "operator_id": "V09811",
+      "track_in_time": "2026-10-24T13:00:00+08:00",
+      "track_out_time": null,
+      "shift": "DAY",
+      "created_at": "2026-10-24T12:50:00+08:00",
+      "updated_at": "2026-10-24T15:10:00+08:00"
+    }
+  ],
+  "handover_logs": [
+    {
+      "id": "log-uuid-prev",
+      "shift_date": "2026-10-24",
+      "shift_type": "NIGHT_TO_DAY",
+      "outgoing_operator": "V08761",
+      "incoming_operator": "V10492",
+      "total_active_lots": 3,
+      "hot_lots_count": 2,
+      "held_lots_count": 1,
+      "completed_lots_count": 5,
+      "summary_notes": "大夜班機台順暢，GETHA4 正常運轉，交接 3 批在線貨。",
+      "sign_off_timestamp": "2026-10-24T07:20:00+08:00"
+    }
+  ]
+}

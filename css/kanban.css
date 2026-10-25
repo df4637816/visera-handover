@@ -1,0 +1,376 @@
+/* VisEra Shift Handover System - Apple Style Kanban & Table View Styles */
+
+/* Main Container */
+.main-view-container {
+  padding: 24px 28px 40px;
+  min-height: calc(100vh - 120px);
+}
+
+/* Kanban Board Layout */
+.kanban-board {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding-bottom: 24px;
+  align-items: flex-start;
+}
+
+.kanban-column {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  width: 320px;
+  min-width: 320px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 160px);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.kanban-column.drag-over {
+  border-color: var(--accent-blue);
+  background-color: rgba(0, 113, 227, 0.05);
+}
+
+.kanban-column.col-unassigned {
+  border-style: dashed;
+}
+
+.kanban-column.col-completed {
+  opacity: 0.95;
+}
+
+.column-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+}
+
+.column-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.column-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--text-primary);
+}
+
+.column-badge {
+  font-size: 0.75rem;
+  background-color: var(--bg-card);
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.column-cards-container {
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+/* Lot Card Styling - Apple Clean Card */
+.lot-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  cursor: grab;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.lot-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  .lot-card:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.lot-card.dragging {
+  opacity: 0.45;
+  cursor: grabbing;
+}
+
+.lot-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.lot-card.priority-super-hot::before {
+  background-color: var(--priority-super-hot);
+}
+
+.lot-card.priority-hot::before {
+  background-color: var(--priority-hot);
+}
+
+.lot-card.priority-normal::before {
+  background-color: var(--priority-normal);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.lot-id {
+  font-family: var(--font-mono);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--text-primary);
+}
+
+.priority-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  letter-spacing: 0.3px;
+}
+
+.priority-tag.super-hot {
+  background-color: var(--priority-super-hot-bg);
+  color: var(--priority-super-hot);
+}
+
+.priority-tag.hot {
+  background-color: var(--priority-hot-bg);
+  color: var(--priority-hot);
+}
+
+.priority-tag.normal {
+  background-color: var(--priority-normal-bg);
+  color: var(--priority-normal);
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.category-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+}
+
+.engineer-name {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.card-instruction {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 10px;
+  background-color: var(--bg-tertiary);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Redesigned HOLD Banner on Card */
+.hold-banner {
+  background-color: var(--status-held-bg);
+  border: 1px solid rgba(255, 59, 48, 0.25);
+  color: var(--status-held);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hold-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-held);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.lot-card.is-held {
+  border-color: rgba(255, 59, 48, 0.4);
+}
+
+/* Tasks Checklist Preview */
+.card-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 10px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.task-name-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-check-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.task-check-circle.done {
+  background-color: var(--status-done);
+  border-color: var(--status-done);
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+}
+
+.operator-tag {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+/* Table List View - Clean Minimal Apple Table */
+.table-view-container {
+  display: none;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table-view-container.active {
+  display: block;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.86rem;
+}
+
+.data-table th {
+  background-color: var(--bg-tertiary);
+  padding: 14px 18px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.8rem;
+}
+
+.data-table th:hover {
+  color: var(--text-primary);
+}
+
+.data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.data-table tr:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.route-step-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  background-color: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.task-progress-badge {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.status-cell {
+  font-weight: 600;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+}
+
+.status-cell.status-in-progress {
+  color: var(--status-progress);
+  background-color: var(--status-progress-bg);
+}
+
+.status-cell.status-held {
+  color: var(--status-held);
+  background-color: var(--status-held-bg);
+}
+
+.status-cell.status-completed {
+  color: var(--status-done);
+  background-color: var(--status-done-bg);
+}

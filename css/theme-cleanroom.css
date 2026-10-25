@@ -1,0 +1,56 @@
+/* VisEra Shift Handover System - Cleanroom Dual Theme Engine */
+
+/* Yellow Room Mode (黃光微影區專用高對比高清晰度模式 - Apple Industrial Style) */
+body.theme-yellow-room {
+  --bg-primary: #fffbeb;
+  --bg-secondary: rgba(254, 252, 232, 0.92);
+  --bg-tertiary: #fef3c7;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --border-color: #fde68a;
+  --border-focus: #d97706;
+
+  --text-primary: #451a03;
+  --text-secondary: #78350f;
+  --text-muted: #92400e;
+  --text-inverse: #ffffff;
+
+  --priority-super-hot: #dc2626;
+  --priority-super-hot-bg: rgba(220, 38, 38, 0.12);
+  --priority-hot: #d97706;
+  --priority-hot-bg: rgba(217, 119, 6, 0.12);
+  --priority-normal: #2563eb;
+  --priority-normal-bg: rgba(37, 99, 235, 0.12);
+
+  --status-held: #dc2626;
+  --status-held-bg: rgba(220, 38, 38, 0.12);
+  --status-progress: #2563eb;
+  --status-progress-bg: rgba(37, 99, 235, 0.12);
+  --status-done: #16a34a;
+  --status-done-bg: rgba(22, 163, 74, 0.12);
+
+  --accent-cyan: #d97706;
+  --accent-blue: #b45309;
+  --accent-hover: #92400e;
+  --danger: #dc2626;
+
+  --shadow-sm: 0 1px 3px rgba(120, 53, 15, 0.08);
+  --shadow-md: 0 4px 14px rgba(120, 53, 15, 0.1);
+  --shadow-lg: 0 12px 32px rgba(120, 53, 15, 0.15);
+}
+
+body.theme-yellow-room .brand-logo span:first-child {
+  color: #b45309;
+}
+
+body.theme-yellow-room .lot-card {
+  border-color: #fde68a;
+}
+
+body.theme-yellow-room .btn-primary {
+  background-color: #b45309;
+}
+
+body.theme-yellow-room .btn-primary:hover {
+  background-color: #92400e;
+}

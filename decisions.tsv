@@ -1,0 +1,7 @@
+ts	phase	decision	why	evidence	result
+2026-10-24T15:48:00Z	init	開始夜間自動作業並建立決策日誌	使用者交代睡覺期間自動執行並全權開放權限	show-me-your-work skill	started
+2026-10-24T15:50:00Z	domain	重構領域模型將 HOLD 改為卡片狀態並刪除 HOLD 虛擬站點	落實原則 principle-model-the-domain 並符合使用者 A3 決策	js/lots.js	tests green
+2026-10-24T15:51:00Z	parser	修復郵件解析器單行精準比對與未知站點歸入 UNASSIGNED	避免全域急件污染與修復未知機台卡片遺失問題（使用者 A6 決策）	js/parser.js	tests green
+2026-10-24T15:52:00Z	ui	將介面改版為 Apple 風格（毛玻璃導航、精緻圓角卡片、淺色自適應）	符合使用者 A1 決策及視覺現代化需求	css/main.css, css/kanban.css	pixel verified
+2026-10-24T15:53:00Z	handover	簽核交接時將本班完成批號自看板封存並記錄於日報	落實使用者 A4 決策以歸零完成數字	js/handover.js, js/storage.js	tests green
+2026-10-24T15:54:00Z	security	建立 HTTPS 雙向伺服器與專用 TLS 憑證綁定公司內網 IP	滿足使用者在公司內網安全網域存取需求	server.js, certs/server.crt	https 200 ok
