@@ -5,3 +5,5 @@ ts	phase	decision	why	evidence	result
 2026-10-24T15:52:00Z	ui	將介面改版為 Apple 風格（毛玻璃導航、精緻圓角卡片、淺色自適應）	符合使用者 A1 決策及視覺現代化需求	css/main.css, css/kanban.css	pixel verified
 2026-10-24T15:53:00Z	handover	簽核交接時將本班完成批號自看板封存並記錄於日報	落實使用者 A4 決策以歸零完成數字	js/handover.js, js/storage.js	tests green
 2026-10-24T15:54:00Z	security	建立 HTTPS 雙向伺服器與專用 TLS 憑證綁定公司內網 IP	滿足使用者在公司內網安全網域存取需求	server.js, certs/server.crt	https 200 ok
+2026-10-25T09:44:00Z	deploy	建立 GitHub 公開儲存庫並啟用 GitHub Pages 部署	提供使用者可在公司直接存取的官方正式 HTTPS 網址	https://df4637816.github.io/visera-handover/	http 200 ok
+2026-10-27T12:25:00Z	design-refactor	依據 design.md 規範重構交接看板 UI 並通過測試	落實旗艦設計系統色彩、物理阻尼、等寬字體標註與 12px 字級防護	css/main.css, css/kanban.css, design.md	tests green

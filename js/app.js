@@ -256,16 +256,32 @@ class App {
       });
     }
 
-    // Lot Delete
+    // Lot Delete: in-app two-step confirm, because browsers can suppress window.confirm()
     const lotDeleteBtn = document.getElementById("btn-delete-lot");
     if (lotDeleteBtn) {
       lotDeleteBtn.addEventListener("click", () => {
-        if (!this.activeLot) return;
-        if (confirm(`確定刪除批號 ${this.activeLot.lot_id} 嗎？此操作不可復原。`)) {
-          this.storage.deleteLot(this.activeLot.id);
+        const lot = this.activeLot;
+        if (!lot) return;
+
+        if (!lot.id) {
+          this.resetDeleteButton();
           closeLotModal();
-          this.showToast(`批號 ${this.activeLot.lot_id} 已刪除`, "info");
+          this.showToast("未儲存的新批號已捨棄", "info");
+          return;
         }
+
+        if (!lotDeleteBtn.classList.contains("armed")) {
+          lotDeleteBtn.classList.add("armed");
+          lotDeleteBtn.textContent = `再按一次確認刪除 ${lot.lot_id}`;
+          clearTimeout(this.deleteArmTimer);
+          this.deleteArmTimer = setTimeout(() => this.resetDeleteButton(), 4000);
+          return;
+        }
+
+        this.resetDeleteButton();
+        this.storage.deleteLot(lot.id);
+        closeLotModal();
+        this.showToast(`批號 ${lot.lot_id} 已刪除`, "info");
       });
     }
 
@@ -385,7 +401,16 @@ class App {
       lot.tasks.forEach((task) => this.appendTaskRow(task));
     }
 
+    this.resetDeleteButton();
     modal.classList.add("open");
+  }
+
+  resetDeleteButton() {
+    clearTimeout(this.deleteArmTimer);
+    const btn = document.getElementById("btn-delete-lot");
+    if (!btn) return;
+    btn.classList.remove("armed");
+    btn.textContent = "刪除此批號";
   }
 
   appendTaskRow(task) {

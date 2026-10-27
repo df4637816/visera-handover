@@ -1,28 +1,49 @@
-/* VisEra Shift Handover System - Apple Design Aesthetic Theme Engine */
+/* VisEra Shift Handover System - Flagship Cleanroom Design System Engine */
 
 :root {
-  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
-  --font-mono: "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+  /* Typography Stack per design.md 3.1 */
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "PingFang TC", "Noto Sans TC", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Courier New", monospace;
 
-  /* Apple Light Mode Default */
-  --bg-primary: #f5f5f7;
-  --bg-secondary: rgba(255, 255, 255, 0.82);
-  --bg-tertiary: #ebebed;
-  --bg-card: #ffffff;
+  /* Motion & Spring Physics per design.md 5.1 */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-ambient: cubic-bezier(0.4, 0, 0.6, 1);
+
+  /* Border Radius Hierarchy per design.md 4.1 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Base Semantic Tokens - Light Mode Fallback per design.md 2.1 */
+  --background: #fafafa;
+  --card: #ffffff;
+  --foreground: #18181b;
+  --muted-foreground: #71717a;
+  --border: rgba(0, 0, 0, 0.08);
+  --primary: #d97706;
+  --primary-foreground: #ffffff;
+
+  /* Component Compatibility Bindings */
+  --bg-primary: var(--background);
+  --bg-secondary: rgba(255, 255, 255, 0.85);
+  --bg-tertiary: #f4f4f6;
+  --bg-card: var(--card);
   --bg-card-hover: #ffffff;
-  --border-color: rgba(0, 0, 0, 0.08);
-  --border-focus: #0071e3;
+  --border-color: var(--border);
+  --border-focus: var(--primary);
 
-  --text-primary: #1d1d1f;
-  --text-secondary: #6e6e73;
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
   --text-muted: #86868b;
   --text-inverse: #ffffff;
 
-  /* Priority & Status Badges - Apple Human Interface Palette */
+  /* Priority & Status Badges - Cleanroom Telemetry Palette */
   --priority-super-hot: #ff3b30;
   --priority-super-hot-bg: rgba(255, 59, 48, 0.12);
-  --priority-hot: #ff9500;
-  --priority-hot-bg: rgba(255, 149, 0, 0.12);
+  --priority-hot: #f59e0b;
+  --priority-hot-bg: rgba(245, 158, 11, 0.14);
   --priority-normal: #0071e3;
   --priority-normal-bg: rgba(0, 113, 227, 0.1);
 
@@ -33,41 +54,52 @@
   --status-done: #34c759;
   --status-done-bg: rgba(52, 199, 89, 0.12);
 
-  /* Accents & Buttons */
+  /* Accents & Actions */
   --accent-cyan: #0071e3;
   --accent-blue: #0071e3;
   --accent-hover: #0077ed;
   --danger: #ff3b30;
 
+  /* Shadows with Optical Depth */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  /* Hardware Finish Recipes per design.md 2.2 */
+  --finish-titanium-desert: linear-gradient(135deg, #d6bfa7 0%, #8f7963 50%, #4a3e33 100%);
+  --finish-titanium-jade: linear-gradient(135deg, #6ee7b7 0%, #047857 55%, #064e3b 100%);
+  --finish-titanium-phantom: linear-gradient(135deg, #52525b 0%, #27272a 50%, #09090b 100%);
+  --ambient-glow-amber: rgba(245, 158, 11, 0.28);
 }
 
-/* System Dark Mode (Automatic) */
+/* System Dark Mode Default per design.md 2.1 (Zinc 950 & Elevated Dark) */
 @media (prefers-color-scheme: dark) {
   :root:not(.theme-yellow-room) {
-    --bg-primary: #000000;
-    --bg-secondary: rgba(28, 28, 30, 0.8);
-    --bg-tertiary: #2c2c2e;
-    --bg-card: #1c1c1e;
-    --bg-card-hover: #2c2c2e;
-    --border-color: rgba(255, 255, 255, 0.12);
-    --border-focus: #0a84ff;
+    --background: #09090b;
+    --card: #121216;
+    --foreground: #f4f4f5;
+    --muted-foreground: #a1a1aa;
+    --border: rgba(255, 255, 255, 0.10);
+    --primary: #f59e0b;
+    --primary-foreground: #09090b;
 
-    --text-primary: #f5f5f7;
-    --text-secondary: #a1a1a6;
-    --text-muted: #6e6e73;
-    --text-inverse: #000000;
+    --bg-primary: var(--background);
+    --bg-secondary: rgba(18, 18, 22, 0.85);
+    --bg-tertiary: #1c1c20;
+    --bg-card: var(--card);
+    --bg-card-hover: #222228;
+    --border-color: var(--border);
+    --border-focus: var(--primary);
+
+    --text-primary: var(--foreground);
+    --text-secondary: var(--muted-foreground);
+    --text-muted: #71717a;
+    --text-inverse: #09090b;
 
     --priority-super-hot: #ff453a;
     --priority-super-hot-bg: rgba(255, 69, 58, 0.2);
-    --priority-hot: #ff9f0a;
-    --priority-hot-bg: rgba(255, 159, 10, 0.2);
+    --priority-hot: #f59e0b;
+    --priority-hot-bg: rgba(245, 158, 11, 0.22);
     --priority-normal: #0a84ff;
     --priority-normal-bg: rgba(10, 132, 255, 0.2);
 
@@ -83,9 +115,9 @@
     --accent-hover: #409cff;
     --danger: #ff453a;
 
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.65);
   }
 }
 
@@ -144,7 +176,7 @@ body {
 }
 
 .brand-tag {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
   background-color: var(--bg-tertiary);
   color: var(--text-secondary);
@@ -463,9 +495,9 @@ body {
 .badge-merge {
   display: inline-block;
   padding: 2px 8px;
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  border-radius: 12px;
+  border-radius: var(--radius-full);
   background-color: rgba(255, 149, 0, 0.15);
   color: #d97706;
 }
@@ -473,9 +505,9 @@ body {
 .badge-create {
   display: inline-block;
   padding: 2px 8px;
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  border-radius: 12px;
+  border-radius: var(--radius-full);
   background-color: rgba(52, 199, 89, 0.15);
   color: #16a34a;
 }
@@ -532,4 +564,16 @@ body {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+#btn-delete-lot.armed {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: #ffffff !important;
+  animation: armPulse 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes armPulse {
+  from { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.45); }
+  to { box-shadow: 0 0 0 6px rgba(255, 59, 48, 0); }
 }

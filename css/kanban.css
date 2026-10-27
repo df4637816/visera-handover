@@ -69,7 +69,7 @@
   background-color: var(--bg-card);
   color: var(--text-secondary);
   padding: 2px 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-full);
   font-family: var(--font-mono);
   font-weight: 700;
   box-shadow: var(--shadow-sm);
@@ -84,7 +84,7 @@
   flex: 1;
 }
 
-/* Lot Card Styling - Apple Clean Card */
+/* Lot Card Styling - Bento Architecture per design.md 1.1 */
 .lot-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -92,7 +92,7 @@
   padding: 14px;
   cursor: grab;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s ease;
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s var(--ease-spring), border-color 0.2s ease;
   position: relative;
   overflow: hidden;
 }
@@ -100,12 +100,13 @@
 .lot-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(0, 0, 0, 0.15);
+  border-color: rgba(245, 158, 11, 0.35);
 }
 
 @media (prefers-color-scheme: dark) {
   .lot-card:hover {
-    border-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(245, 158, 11, 0.45);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 12px var(--ambient-glow-amber);
   }
 }
 
@@ -151,10 +152,10 @@
 }
 
 .priority-tag {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   padding: 3px 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-full);
   letter-spacing: 0.3px;
 }
 
@@ -181,7 +182,7 @@
 }
 
 .category-tag {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 500;
   background-color: var(--bg-tertiary);
   color: var(--text-secondary);
@@ -268,7 +269,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s ease;
+  transition: all 0.2s var(--ease-spring);
 }
 
 .task-check-circle.done {
@@ -280,7 +281,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   border-top: 1px solid var(--border-color);
   padding-top: 8px;
